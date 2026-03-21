@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Карта программы</title>
+<style>
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  background: #ffffff;
+  color: #1a1a2e;
+  padding: 24px 16px 40px;
+}
+
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* --- Header --- */
+
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.header-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #4C1D95;
+  margin-bottom: 4px;
+}
+
+.header-meta {
+  font-size: 13px;
+  color: #7C3AED;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.header-hint {
+  font-size: 12px;
+  color: #9CA3AF;
+}
+
+.header-line {
+  width: 40px;
+  height: 3px;
+  background: #7C3AED;
+  border-radius: 2px;
+  margin: 12px auto 0;
+}
+
+/* --- Module card --- */
+
+.module {
+  border: 2px solid #EDE9FE;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  overflow: hidden;
+}
+
+.module:hover {
+  border-color: #C4B5FD;
+  background: #FAFAFE;
+}
+
+.module.open {
+  border-color: #7C3AED;
+  background: #FFFFFF;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.12);
+}
+
+/* --- Module header row --- */
+
+.module-top {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  gap: 14px;
+}
+
+.module-num {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #EDE9FE;
+  color: #7C3AED;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+
+.module.open .module-num {
+  background: #7C3AED;
+  color: #FFFFFF;
+}
+
+.module-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1F2937;
+  flex: 1;
+}
+
+.module-arrow {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+  color: #9CA3AF;
+}
+
+.module.open .module-arrow {
+  transform: rotate(180deg);
+  color: #7C3AED;
+}
+
+/* --- Module content --- */
+
+.module-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.module-body-inner {
+  padding: 0 16px 16px 66px;
+}
+
+.module-code {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  color: #7C3AED;
+  background: #F5F3FF;
+  border: 1px solid #EDE9FE;
+  padding: 2px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.module-desc {
+  font-size: 13px;
+  line-height: 1.65;
+  color: #6B7280;
+  margin-bottom: 12px;
+}
+
+.module-topics-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #7C3AED;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 8px;
+}
+
+.module-topics {
+  list-style: none;
+  padding: 0;
+}
+
+.module-topics li {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #374151;
+  padding: 5px 0 5px 18px;
+  position: relative;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.module-topics li:hover {
+  background: #F5F3FF;
+}
+
+.topic-dot {
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #EDE9FE;
+  border: 1.5px solid #A78BFA;
+}
+
+/* --- Responsive --- */
+
+@media (max-width: 480px) {
+  .header-title { font-size: 18px; }
+  .module-body-inner { padding-left: 16px; }
+  .module-name { font-size: 13px; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div class="header">
+    <div class="header-title">Карта программы: Архитектор ПО</div>
+    <div class="header-meta">9 модулей</div>
+    <div class="header-hint">Нажмите на модуль, чтобы увидеть содержание</div>
+    <div class="header-line"></div>
+  </div>
+
+  <div id="map"></div>
+
+</div>
+
+<script>
+
+var modules = [
+  {
+    id: 1,
+    code: "ARC-I-001",
+    name: "Архитектурные стили ПО: формирование базовой архитектуры",
+    desc: "Обзор программной архитектуры, знакомство с ключевыми понятиями, ходом мыслей программного архитектора и принципами архитектурного проектирования.",
+    topics: [
+      "Понятия архитектуры: основные термины и определения",
+      "Понятия архитектуры: критерии качества архитектуры",
+      "Роли и виды архитекторов",
+      "Архитектурные стили: монолит",
+      "Архитектурные стили: микросервисы",
+      "Принципы предметно-ориентированного проектирования (DDD)",
+      "Clean Architecture: правила создания архитектур",
+      "Архитектурные стили: событийно-управляемая архитектура",
+      "Архитектурные стили: классический ETL/DWH/BI",
+      "Позиция архитектора в Agile проекте"
+    ]
+  },
+  {
+    id: 2,
+    code: "ARC-I-002",
+    name: "Работа с требованиями при проектировании архитектуры",
+    desc: "Связь заинтересованных сторон, целей и требований архитектуры при разработке ПО. Функциональные и нефункциональные требования, движущие силы архитектуры.",
+    topics: [
+      "Управление заинтересованными сторонами (стейкхолдерами) проекта",
+      "Виды требований и атрибуты качества",
+      "Влияние нефункциональных требований на архитектуру",
+      "Сбор и работа с функциональными требованиями",
+      "Дополнительные виды требований: ограничения",
+      "Управление критериями надежности (SLA, SLO, SLI)",
+      "Как определить и улучшить критерии качества требований",
+      "Работа с архитектурными изменениями"
+    ]
+  },
+  {
+    id: 3,
+    code: "ARC-I-003",
+    name: "Создание устойчивых решений: принципы проектирования",
+    desc: "Логика и последовательность шагов при проектировании архитектуры. Методика, направленная на достижение атрибутов качества: надежность, производительность, безопасность, модифицируемость.",
+    topics: [
+      "Проектирование от атрибутов качества",
+      "Тактики и паттерны проектирования"
+    ]
+  },
+  {
+    id: 4,
+    code: "ARC-I-004",
+    name: "Технологии интеграции и взаимодействие микросервисов",
+    desc: "Основные способы интеграции приложений: файлы, базы данных, удаленный вызов, брокер. Синхронное и асинхронное взаимодействие.",
+    topics: [
+      "Задача коммуникации приложений",
+      "Уровни (методы) интеграционных решений",
+      "Шаблоны коммуникации в контексте микросервисной архитектуры",
+      "Синхронное взаимодействие и REST: основы, генерация API и управление версиями",
+      "REST API: рекомендации по дизайну, блокировкам, кешированию и версионированию",
+      "OpenAPI Spec: интеграция и API First подход",
+      "Архитектура сообщений: ключевые паттерны и методы разработки",
+      "AsyncAPI: организация асинхронного взаимодействия",
+      "Технологии асинхронного взаимодействия: RabbitMQ и Kafka в сравнении",
+      "Интеграция баз данных и ETL: метрики и методы оптимизации",
+      "Использование вспомогательных протоколов и средств интеграции API"
+    ]
+  },
+  {
+    id: 5,
+    code: "ARC-I-005",
+    name: "Технологии хранения и управления информацией",
+    desc: "Задачи хранения информации и принципы проектирования баз данных. Модели данных, ER-диаграммы, типы связей.",
+    topics: [
+      "Реляционные и нереляционные базы данных: обзор, особенности и гарантии доступности",
+      "Как выбрать базу данных на основании требований и контекста",
+      "Организация конкурентного доступа: блокировки, изоляция транзакций, согласованность. CAP-теорема",
+      "Современные тактики производительности реляционной базы данных",
+      "Виды нереляционных баз данных: обзор, гарантии, отличия и детали реализации",
+      "Проектирование моделей данных"
+    ]
+  },
+  {
+    id: 6,
+    code: "ARC-I-006",
+    name: "Системная архитектура: дизайн и оптимизация инфраструктуры",
+    desc: "Принципы развертывания приложений и их влияние на атрибуты качества. Постановка задач системным инженерам, администраторам и DevOps.",
+    topics: [
+      "Технологии виртуализации",
+      "Основы построения информационных сетей",
+      "Архитектура Linux",
+      "Основы CI/CD: построение процессов с использованием Jenkins, GitLab, Ansible",
+      "Мониторинг и наблюдаемость системы: паттерны, инструменты и протоколы",
+      "Проектирование облачной архитектуры: провайдеры, возможности, экономика",
+      "Проектирование облачной архитектуры: паттерны",
+      "Разработка 12-Факторного приложения",
+      "Контрактные обязательства сервиса: SLA, RTO, RPO и паттерны реализации",
+      "Kubernetes: типы сущностей, Helm, CI/CD и балансировка трафика"
+    ]
+  },
+  {
+    id: 7,
+    code: "ARC-I-007",
+    name: "Документирование архитектурных решений: BPMN, UML, нотация 4+1 и ADR",
+    desc: "Анализ диаграмм BPMN, разработка C4 и UML диаграмм. Нотация 4+1 для разных точек зрения на архитектуру.",
+    topics: [
+      "UML для моделирования и анализа систем",
+      "BPMN для моделирования бизнес-процессов",
+      "Нотация 4+1 для анализа и проектирования архитектуры",
+      "Нотация C4 для наглядного и эффективного проектирования архитектуры",
+      "Изучение подхода ADR для документации архитектурных решений",
+      "Язык Archimate"
+    ]
+  },
+  {
+    id: 8,
+    code: "ARC-I-008",
+    name: "Микросервисная архитектура: проектирование, внедрение, поддержка",
+    desc: "Построение масштабируемых и надежных микросервисных систем. Ключевые принципы проектирования, интеграции и поддержки микросервисов.",
+    topics: [
+      "Стратегические паттерны Event Storming и DDD",
+      "Проектирование микросервисов, тактические паттерны",
+      "Инфраструктура и данные в микросервисах",
+      "Жизненный цикл микросервисов",
+      "Тестирование",
+      "Observability и поддержка",
+      "Распил монолита"
+    ]
+  },
+  {
+    id: 9,
+    code: "ARC-I-009",
+    name: "Инструменты командного игрока: Soft Skills",
+    desc: "Финальный практический блок. Подготовка презентаций, защита решений на архитектурном комитете или перед инвесторами. Включает дипломную работу.",
+    topics: []
+  }
+];
+
+function buildMap() {
+  var map = document.getElementById("map");
+  if (!map) return;
+
+  for (var i = 0; i < modules.length; i++) {
+    var mod = modules[i];
+
+    var card = document.createElement("div");
+    card.className = "module";
+    card.setAttribute("data-id", mod.id);
+
+    // Header
+    var top = document.createElement("div");
+    top.className = "module-top";
+
+    var num = document.createElement("div");
+    num.className = "module-num";
+    num.textContent = mod.id < 10 ? "0" + mod.id : "" + mod.id;
+
+    var name = document.createElement("div");
+    name.className = "module-name";
+    name.textContent = mod.name;
+
+    var arrow = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    arrow.setAttribute("class", "module-arrow");
+    arrow.setAttribute("viewBox", "0 0 24 24");
+    arrow.setAttribute("fill", "none");
+    arrow.setAttribute("stroke", "currentColor");
+    arrow.setAttribute("stroke-width", "2.5");
+    arrow.setAttribute("stroke-linecap", "round");
+    arrow.setAttribute("stroke-linejoin", "round");
+    var polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+    polyline.setAttribute("points", "6 9 12 15 18 9");
+    arrow.appendChild(polyline);
+
+    top.appendChild(num);
+    top.appendChild(name);
+    top.appendChild(arrow);
+
+    // Body
+    var body = document.createElement("div");
+    body.className = "module-body";
+
+    var inner = document.createElement("div");
+    inner.className = "module-body-inner";
+
+    var code = document.createElement("span");
+    code.className = "module-code";
+    code.textContent = mod.code;
+    inner.appendChild(code);
+
+    var desc = document.createElement("p");
+    desc.className = "module-desc";
+    desc.textContent = mod.desc;
+    inner.appendChild(desc);
+
+    if (mod.topics.length > 0) {
+      var label = document.createElement("div");
+      label.className = "module-topics-label";
+      label.textContent = "Содержание модуля (" + mod.topics.length + " тем)";
+      inner.appendChild(label);
+
+      var ul = document.createElement("ul");
+      ul.className = "module-topics";
+
+      for (var j = 0; j < mod.topics.length; j++) {
+        var li = document.createElement("li");
+
+        var dot = document.createElement("span");
+        dot.className = "topic-dot";
+        li.appendChild(dot);
+
+        var text = document.createTextNode(mod.topics[j]);
+        li.appendChild(text);
+
+        ul.appendChild(li);
+      }
+
+      inner.appendChild(ul);
+    }
+
+    body.appendChild(inner);
+
+    card.appendChild(top);
+    card.appendChild(body);
+
+    card.addEventListener("click", handleClick);
+
+    map.appendChild(card);
+  }
+}
+
+function handleClick(e) {
+  var card = e.currentTarget;
+  var isOpen = card.classList.contains("open");
+  var body = card.querySelector(".module-body");
+
+  // Close all
+  var allCards = document.querySelectorAll(".module");
+  for (var i = 0; i < allCards.length; i++) {
+    allCards[i].classList.remove("open");
+    allCards[i].querySelector(".module-body").style.maxHeight = "0px";
+  }
+
+  // Open clicked (if it was closed)
+  if (!isOpen) {
+    card.classList.add("open");
+    body.style.maxHeight = body.scrollHeight + "px";
+
+    setTimeout(function() {
+      card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }, 100);
+  }
+}
+
+buildMap();
+
+</script>
+</body>
+</html>
