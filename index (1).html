@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Карта программы: Архитектор ПО</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #F7F7FB;
+  color: #1F2937;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 36px 24px 56px;
+}
+
+/* ====== Header ====== */
+
+.header {
+  text-align: center;
+  margin-bottom: 44px;
+}
+
+.header-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #4C1D95;
+  letter-spacing: -0.3px;
+}
+
+.header-meta {
+  font-size: 13px;
+  font-weight: 600;
+  color: #8B5CF6;
+  margin-top: 6px;
+}
+
+.header-hint {
+  font-size: 12px;
+  color: #9CA3AF;
+  margin-top: 6px;
+}
+
+.header-line {
+  width: 48px;
+  height: 3px;
+  background: linear-gradient(90deg, #7C3AED, #A855F7);
+  border-radius: 2px;
+  margin: 16px auto 0;
+}
+
+/* ====== Timeline ====== */
+
+.timeline {
+  position: relative;
+}
+
+/* ====== Section (one module) ====== */
+
+.section {
+  position: relative;
+  padding-left: 64px;
+  padding-bottom: 36px;
+}
+
+.section:last-child { padding-bottom: 0; }
+
+/* vertical connector */
+.section::before {
+  content: '';
+  position: absolute;
+  left: 23px;
+  top: 52px;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, #DDD6FE, #EDE9FE);
+}
+
+.section:last-child::before { display: none; }
+
+/* ====== Number circle ====== */
+
+.section-num {
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
+  z-index: 1;
+  transition: transform 0.35s cubic-bezier(.34,1.56,.64,1), box-shadow 0.3s ease;
+}
+
+.section.open .section-num {
+  transform: scale(1.12);
+}
+
+/* ====== Section header ====== */
+
+.section-header {
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.section-header:hover .section-title { color: #4C1D95; }
+
+.section-info { flex: 1; }
+
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1F2937;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  line-height: 1.45;
+  transition: color 0.2s ease;
+}
+
+.section-desc {
+  font-size: 13px;
+  color: #6B7280;
+  line-height: 1.65;
+  margin-top: 4px;
+}
+
+.section-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.4px;
+}
+
+.badge-code {
+  color: #7C3AED;
+  background: #F3F0FF;
+  border: 1px solid #E8E5F0;
+}
+
+.badge-count {
+  color: #6B7280;
+  background: #F3F4F6;
+  border: 1px solid #E5E7EB;
+}
+
+/* chevron */
+.section-chevron {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #C4B5FD;
+  transition: transform 0.35s ease, color 0.25s ease;
+}
+
+.section.open .section-chevron {
+  transform: rotate(180deg);
+  color: #7C3AED;
+}
+
+/* ====== Content (expandable) ====== */
+
+.section-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ====== Cards grid ====== */
+
+.cards-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #9CA3AF;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 18px 0 10px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+/* ====== Topic card ====== */
+
+.card {
+  background: #FFFFFF;
+  border: 1px solid #EEECF5;
+  border-radius: 12px;
+  padding: 14px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.1);
+  border-color: #DDD6FE;
+}
+
+.card-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+
+.card-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  line-height: 1.45;
+}
+
+/* ====== Responsive ====== */
+
+@media (max-width: 680px) {
+  .app { padding: 24px 16px 40px; }
+  .header-title { font-size: 21px; }
+  .section { padding-left: 52px; }
+  .section-num { width: 40px; height: 40px; font-size: 14px; }
+  .section::before { left: 19px; top: 44px; }
+  .section-title { font-size: 13px; }
+  .cards-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 400px) {
+  .cards-grid { grid-template-columns: 1fr; }
+  .section { padding-left: 44px; }
+  .section-num { width: 34px; height: 34px; font-size: 12px; }
+  .section::before { left: 16px; top: 38px; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="header">
+    <div class="header-title">Карта программы: Архитектор ПО</div>
+    <div class="header-meta">9 модулей</div>
+    <div class="header-hint">Нажмите на модуль, чтобы увидеть содержание</div>
+    <div class="header-line"></div>
+  </div>
+  <div class="timeline" id="timeline"></div>
+</div>
+
+<script>
+
+var modules = [
+  {
+    id: 1,
+    code: "ARC-I-001",
+    icon: "\u{1F3D7}",
+    color: "#7C3AED",
+    colorLight: "#F3EEFF",
+    name: "Архитектурные стили ПО: формирование базовой архитектуры",
+    desc: "Обзор программной архитектуры, знакомство с ключевыми понятиями, ходом мыслей программного архитектора и принципами архитектурного проектирования.",
+    topics: [
+      "Понятия архитектуры: основные термины и определения",
+      "Понятия архитектуры: критерии качества архитектуры",
+      "Роли и виды архитекторов",
+      "Архитектурные стили: монолит",
+      "Архитектурные стили: микросервисы",
+      "Принципы предметно-ориентированного проектирования (DDD)",
+      "Clean Architecture: правила создания архитектур",
+      "Архитектурные стили: событийно-управляемая архитектура",
+      "Архитектурные стили: классический ETL/DWH/BI",
+      "Позиция архитектора в Agile проекте"
+    ]
+  },
+  {
+    id: 2,
+    code: "ARC-I-002",
+    icon: "\u{1F4CB}",
+    color: "#3B82F6",
+    colorLight: "#EFF6FF",
+    name: "Работа с требованиями при проектировании архитектуры",
+    desc: "Связь заинтересованных сторон, целей и требований архитектуры при разработке ПО. Функциональные и нефункциональные требования, движущие силы архитектуры.",
+    topics: [
+      "Управление заинтересованными сторонами (стейкхолдерами) проекта",
+      "Виды требований и атрибуты качества",
+      "Влияние нефункциональных требований на архитектуру",
+      "Сбор и работа с функциональными требованиями",
+      "Дополнительные виды требований: ограничения",
+      "Управление критериями надежности (SLA, SLO, SLI)",
+      "Как определить и улучшить критерии качества требований",
+      "Работа с архитектурными изменениями"
+    ]
+  },
+  {
+    id: 3,
+    code: "ARC-I-003",
+    icon: "\u{1F3AF}",
+    color: "#8B5CF6",
+    colorLight: "#F5F3FF",
+    name: "Создание устойчивых решений: принципы проектирования",
+    desc: "Логика и последовательность шагов при проектировании архитектуры. Методика, направленная на достижение атрибутов качества: надежность, производительность, безопасность, модифицируемость.",
+    topics: [
+      "Проектирование от атрибутов качества",
+      "Тактики и паттерны проектирования"
+    ]
+  },
+  {
+    id: 4,
+    code: "ARC-I-004",
+    icon: "\u{1F50C}",
+    color: "#2563EB",
+    colorLight: "#EEF2FF",
+    name: "Технологии интеграции и взаимодействие микросервисов",
+    desc: "Основные способы интеграции приложений: файлы, базы данных, удаленный вызов, брокер. Синхронное и асинхронное взаимодействие.",
+    topics: [
+      "Задача коммуникации приложений",
+      "Уровни (методы) интеграционных решений",
+      "Шаблоны коммуникации в контексте микросервисной архитектуры",
+      "Синхронное взаимодействие и REST: основы, генерация API",
+      "REST API: дизайн, блокировки, кеширование, версионирование",
+      "OpenAPI Spec: интеграция и API First подход",
+      "Архитектура сообщений: ключевые паттерны",
+      "AsyncAPI: организация асинхронного взаимодействия",
+      "RabbitMQ и Kafka в сравнении",
+      "Интеграция баз данных и ETL",
+      "Вспомогательные протоколы и средства интеграции API"
+    ]
+  },
+  {
+    id: 5,
+    code: "ARC-I-005",
+    icon: "\u{1F4BE}",
+    color: "#0EA5E9",
+    colorLight: "#E0F7FF",
+    name: "Технологии хранения и управления информацией",
+    desc: "Задачи хранения информации и принципы проектирования баз данных. Модели данных, ER-диаграммы, типы связей.",
+    topics: [
+      "Реляционные и нереляционные базы данных: обзор и гарантии доступности",
+      "Как выбрать базу данных на основании требований и контекста",
+      "Конкурентный доступ: блокировки, изоляция транзакций, CAP-теорема",
+      "Тактики производительности реляционной базы данных",
+      "Виды нереляционных баз данных: обзор и детали реализации",
+      "Проектирование моделей данных"
+    ]
+  },
+  {
+    id: 6,
+    code: "ARC-I-006",
+    icon: "\u{2601}",
+    color: "#14B8A6",
+    colorLight: "#E6FFFA",
+    name: "Системная архитектура: дизайн и оптимизация инфраструктуры",
+    desc: "Принципы развертывания приложений и их влияние на атрибуты качества. Постановка задач системным инженерам, администраторам и DevOps.",
+    topics: [
+      "Технологии виртуализации",
+      "Основы построения информационных сетей",
+      "Архитектура Linux",
+      "Основы CI/CD: Jenkins, GitLab, Ansible",
+      "Мониторинг и наблюдаемость системы",
+      "Облачная архитектура: провайдеры, возможности, экономика",
+      "Облачная архитектура: паттерны",
+      "Разработка 12-Факторного приложения",
+      "SLA, RTO, RPO и паттерны реализации",
+      "Kubernetes: Helm, CI/CD и балансировка трафика"
+    ]
+  },
+  {
+    id: 7,
+    code: "ARC-I-007",
+    icon: "\u{1F4D0}",
+    color: "#A855F7",
+    colorLight: "#FAF0FF",
+    name: "Документирование архитектурных решений: BPMN, UML, нотация 4+1 и ADR",
+    desc: "Анализ диаграмм BPMN, разработка C4 и UML диаграмм. Нотация 4+1 для разных точек зрения на архитектуру.",
+    topics: [
+      "UML для моделирования и анализа систем",
+      "BPMN для моделирования бизнес-процессов",
+      "Нотация 4+1 для анализа и проектирования архитектуры",
+      "Нотация C4 для проектирования архитектуры",
+      "Подход ADR для документации архитектурных решений",
+      "Язык Archimate"
+    ]
+  },
+  {
+    id: 8,
+    code: "ARC-I-008",
+    icon: "\u{26A1}",
+    color: "#6366F1",
+    colorLight: "#EEF0FF",
+    name: "Микросервисная архитектура: проектирование, внедрение, поддержка",
+    desc: "Построение масштабируемых и надежных микросервисных систем. Ключевые принципы проектирования, интеграции и поддержки микросервисов.",
+    topics: [
+      "Стратегические паттерны Event Storming и DDD",
+      "Проектирование микросервисов, тактические паттерны",
+      "Инфраструктура и данные в микросервисах",
+      "Жизненный цикл микросервисов",
+      "Тестирование",
+      "Observability и поддержка",
+      "Распил монолита"
+    ]
+  },
+  {
+    id: 9,
+    code: "ARC-I-009",
+    icon: "\u{1F91D}",
+    color: "#F59E0B",
+    colorLight: "#FFF8E1",
+    name: "Инструменты командного игрока: Soft Skills",
+    desc: "Финальный практический блок. Подготовка презентаций, защита решений на архитектурном комитете или перед инвесторами. Включает дипломную работу.",
+    topics: []
+  }
+];
+
+function buildTimeline() {
+  var tl = document.getElementById("timeline");
+  if (!tl) return;
+
+  for (var i = 0; i < modules.length; i++) {
+    var mod = modules[i];
+    var section = document.createElement("div");
+    section.className = "section";
+    section.setAttribute("data-id", mod.id);
+
+    // Number circle
+    var num = document.createElement("div");
+    num.className = "section-num";
+    num.style.background = "linear-gradient(135deg, " + mod.color + ", " + lighten(mod.color) + ")";
+    num.style.boxShadow = "0 4px 14px " + mod.color + "33";
+    num.textContent = mod.id < 10 ? "0" + mod.id : "" + mod.id;
+    section.appendChild(num);
+
+    // Header
+    var header = document.createElement("div");
+    header.className = "section-header";
+
+    var info = document.createElement("div");
+    info.className = "section-info";
+
+    var title = document.createElement("div");
+    title.className = "section-title";
+    title.textContent = mod.name;
+    info.appendChild(title);
+
+    var desc = document.createElement("div");
+    desc.className = "section-desc";
+    desc.textContent = mod.desc;
+    info.appendChild(desc);
+
+    // Badges row
+    var badges = document.createElement("div");
+    badges.className = "section-badges";
+
+    var codeBadge = document.createElement("span");
+    codeBadge.className = "badge badge-code";
+    codeBadge.textContent = mod.code;
+    badges.appendChild(codeBadge);
+
+    if (mod.topics.length > 0) {
+      var countBadge = document.createElement("span");
+      countBadge.className = "badge badge-count";
+      countBadge.textContent = mod.topics.length + " " + topicWord(mod.topics.length);
+      badges.appendChild(countBadge);
+    }
+
+    info.appendChild(badges);
+    header.appendChild(info);
+
+    // Chevron
+    var chev = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    chev.setAttribute("class", "section-chevron");
+    chev.setAttribute("viewBox", "0 0 24 24");
+    chev.setAttribute("fill", "none");
+    chev.setAttribute("stroke", "currentColor");
+    chev.setAttribute("stroke-width", "2.5");
+    chev.setAttribute("stroke-linecap", "round");
+    chev.setAttribute("stroke-linejoin", "round");
+    var poly = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+    poly.setAttribute("points", "6 9 12 15 18 9");
+    chev.appendChild(poly);
+    header.appendChild(chev);
+
+    section.appendChild(header);
+
+    // Content
+    if (mod.topics.length > 0) {
+      var content = document.createElement("div");
+      content.className = "section-content";
+
+      var label = document.createElement("div");
+      label.className = "cards-label";
+      label.textContent = "Содержание модуля";
+      content.appendChild(label);
+
+      var grid = document.createElement("div");
+      grid.className = "cards-grid";
+
+      for (var j = 0; j < mod.topics.length; j++) {
+        var card = document.createElement("div");
+        card.className = "card";
+
+        var iconBox = document.createElement("div");
+        iconBox.className = "card-icon";
+        iconBox.style.background = mod.colorLight;
+        iconBox.textContent = mod.icon;
+        card.appendChild(iconBox);
+
+        var cardName = document.createElement("div");
+        cardName.className = "card-name";
+        cardName.textContent = mod.topics[j];
+        card.appendChild(cardName);
+
+        grid.appendChild(card);
+      }
+
+      content.appendChild(grid);
+      section.appendChild(content);
+    }
+
+    header.addEventListener("click", makeToggle(section));
+    tl.appendChild(section);
+  }
+}
+
+function makeToggle(section) {
+  return function() {
+    var isOpen = section.classList.contains("open");
+    var content = section.querySelector(".section-content");
+
+    // Close all
+    var all = document.querySelectorAll(".section");
+    for (var k = 0; k < all.length; k++) {
+      all[k].classList.remove("open");
+      var c = all[k].querySelector(".section-content");
+      if (c) c.style.maxHeight = "0px";
+    }
+
+    // Open clicked if was closed
+    if (!isOpen && content) {
+      section.classList.add("open");
+      content.style.maxHeight = content.scrollHeight + "px";
+      setTimeout(function() {
+        section.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }, 120);
+    }
+  };
+}
+
+function topicWord(n) {
+  if (n === 1) return "тема";
+  if (n >= 2 && n <= 4) return "темы";
+  return "тем";
+}
+
+function lighten(hex) {
+  var r = parseInt(hex.slice(1, 3), 16);
+  var g = parseInt(hex.slice(3, 5), 16);
+  var b = parseInt(hex.slice(5, 7), 16);
+  r = Math.min(255, r + 40);
+  g = Math.min(255, g + 40);
+  b = Math.min(255, b + 40);
+  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
+buildTimeline();
+
+</script>
+</body>
+</html>
