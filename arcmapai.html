@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Карта программы: Архитектор ПО</title>
+    <style>
+        :root { --p-600: #7C3AED; --p-800: #4C1D95; --g-500: #6B7280; --white: #FFFFFF; }
+        body { font-family: 'Open Sans', sans-serif; margin: 0; padding: 20px; background: #fff; }
+        .app { max-width: 800px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { color: var(--p-800); font-size: 20px; margin: 0; }
+        
+        .timeline { display: flex; flex-direction: column; gap: 15px; }
+        .node { border: 2px solid #EDE9FE; border-radius: 12px; padding: 15px; cursor: pointer; transition: 0.3s; }
+        .node:hover { border-color: var(--p-600); background: #F5F3FF; }
+        .node-header { display: flex; align-items: center; gap: 15px; }
+        .node-num { background: var(--p-600); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .node-title { font-weight: 600; color: #111827; }
+        
+        .content { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid #E5E7EB; color: var(--g-500); font-size: 14px; }
+        .content.active { display: block; }
+        ul { padding-left: 20px; margin-top: 10px; }
+        li { margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="app">
+    <div class="header"><h1>Карта программы: Архитектор ПО</h1></div>
+    <div id="map" class="timeline"></div>
+</div>
+
+<script>
+const data = [
+    { id: 1, title: "Архитектурные стили ПО", desc: "Обзор программной архитектуры, основные термины, критерии качества, монолит vs микросервисы, DDD, Clean Architecture.", topics: ["Понятия архитектуры", "Роли архитекторов", "Архитектурные стили", "DDD", "Clean Architecture", "Agile позиция"] },
+    { id: 2, title: "Работа с требованиями", desc: "Управление стейкхолдерами, функциональные и нефункциональные требования, SLA/SLO, архитектурные изменения.", topics: ["Заинтересованные стороны", "Атрибуты качества", "SLA/SLO", "Функциональные требования"] },
+    { id: 3, title: "Принципы проектирования", desc: "Проектирование от атрибутов качества, тактики и паттерны для достижения целевых показателей (надежность, производительность, безопасность).", topics: ["Атрибуты качества", "Тактики проектирования", "Паттерны"] },
+    { id: 4, title: "Технологии интеграции", desc: "Методы коммуникации: REST, API First, OpenAPI, AsyncAPI, RabbitMQ/Kafka, ETL.", topics: ["REST API", "OpenAPI", "Архитектура сообщений", "Kafka/RabbitMQ", "ETL"] },
+    { id: 5, title: "Хранение информации", desc: "Реляционные и NoSQL БД, проектирование моделей, стратегии транзакций и согласованности, CAP-теорема.", topics: ["RDBMS vs NoSQL", "Транзакции и блокировки", "Проектирование моделей", "CAP-теорема"] },
+    { id: 6, title: "Системная архитектура", desc: "Виртуализация, Linux, CI/CD, мониторинг, облачная архитектура, 12-Factor App, Kubernetes.", topics: ["Linux", "CI/CD", "Мониторинг", "Cloud Patterns", "Kubernetes"] },
+    { id: 7, title: "Документирование", desc: "BPMN, UML, нотация 4+1, C4, ADR, Archimate.", topics: ["UML", "BPMN", "4+1", "C4", "ADR", "Archimate"] },
+    { id: 8, title: "Микросервисная архитектура", desc: "Event Storming, тактические паттерны, жизненный цикл, тестирование, распил монолита.", topics: ["Event Storming", "DDD", "Жизненный цикл", "Тестирование", "Распил монолита"] },
+    { id: 9, title: "Soft Skills", desc: "Презентация и защита решений на архитектурном комитете.", topics: ["Архитектурный комитет", "Презентации", "Защита решений"] }
+];
+
+const mapEl = document.getElementById('map');
+data.forEach(mod => {
+    const div = document.createElement('div');
+    div.className = 'node';
+    div.innerHTML = `
+        <div class="node-header">
+            <div class="node-num">${mod.id}</div>
+            <div class="node-title">${mod.title}</div>
+        </div>
+        <div class="content">
+            <p>${mod.desc}</p>
+            <ul>${mod.topics.map(t => `<li>${t}</li>`).join('')}</ul>
+        </div>
+    `;
+    div.onclick = () => div.querySelector('.content').classList.toggle('active');
+    mapEl.appendChild(div);
+});
+</script>
+
+</body>
+</html>
