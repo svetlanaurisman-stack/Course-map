@@ -10,20 +10,20 @@
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-body {
+html, body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: #F7F7FB;
   color: #1F2937;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 .app {
   max-width: 860px;
   margin: 0 auto;
-  padding: 36px 24px 56px;
+  padding: 20px 24px 24px;
 }
 
-/* ====== Emoji support ====== */
 .emoji {
   font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
   font-style: normal;
@@ -31,53 +31,47 @@ body {
   line-height: 1;
 }
 
-/* ====== Header ====== */
-
 .header {
   text-align: center;
-  margin-bottom: 44px;
+  margin-bottom: 20px;
 }
 
 .header-title {
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 700;
   color: #4C1D95;
   letter-spacing: -0.3px;
 }
 
 .header-meta {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   color: #8B5CF6;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .header-hint {
-  font-size: 12px;
+  font-size: 11px;
   color: #9CA3AF;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .header-line {
-  width: 48px;
+  width: 40px;
   height: 3px;
   background: linear-gradient(90deg, #7C3AED, #A855F7);
   border-radius: 2px;
-  margin: 16px auto 0;
+  margin: 10px auto 0;
 }
-
-/* ====== Timeline ====== */
 
 .timeline {
   position: relative;
 }
 
-/* ====== Section (one module) ====== */
-
 .section {
   position: relative;
-  padding-left: 64px;
-  padding-bottom: 36px;
+  padding-left: 52px;
+  padding-bottom: 6px;
 }
 
 .section:last-child { padding-bottom: 0; }
@@ -85,8 +79,8 @@ body {
 .section::before {
   content: '';
   position: absolute;
-  left: 23px;
-  top: 52px;
+  left: 17px;
+  top: 40px;
   bottom: 0;
   width: 2px;
   background: linear-gradient(180deg, #DDD6FE, #EDE9FE);
@@ -94,19 +88,17 @@ body {
 
 .section:last-child::before { display: none; }
 
-/* ====== Number circle ====== */
-
 .section-num {
   position: absolute;
   left: 0;
   top: 2px;
-  width: 48px;
-  height: 48px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 700;
   color: #FFFFFF;
   z-index: 1;
@@ -117,15 +109,13 @@ body {
   transform: scale(1.12);
 }
 
-/* ====== Section header ====== */
-
 .section-header {
   cursor: pointer;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
-  padding: 8px 0 0;
+  gap: 10px;
+  padding: 5px 0 6px;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -135,44 +125,53 @@ body {
 .section-info { flex: 1; }
 
 .section-title {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 700;
   color: #1F2937;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
-  line-height: 1.45;
+  letter-spacing: 0.2px;
+  line-height: 1.4;
   transition: color 0.2s ease;
 }
 
 .section-title .emoji {
-  margin-right: 6px;
-  font-size: 16px;
+  margin-right: 5px;
+  font-size: 14px;
   vertical-align: middle;
 }
 
 .section-desc {
-  font-size: 13px;
+  font-size: 12px;
   color: #6B7280;
-  line-height: 1.65;
-  margin-top: 4px;
+  line-height: 1.6;
+  margin-top: 6px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.35s ease, opacity 0.3s ease, margin 0.3s ease;
+}
+
+.section.open .section-desc {
+  max-height: 120px;
+  opacity: 1;
 }
 
 .section-badges {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 8px;
+  gap: 6px;
+  margin-top: 4px;
   flex-wrap: wrap;
 }
 
 .badge {
   display: inline-flex;
   align-items: center;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
-  padding: 3px 10px;
+  padding: 2px 8px;
   border-radius: 100px;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
 }
 
 .badge-code {
@@ -187,10 +186,9 @@ body {
   border: 1px solid #E5E7EB;
 }
 
-/* chevron */
 .section-chevron {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
   margin-top: 2px;
   color: #C4B5FD;
@@ -202,15 +200,11 @@ body {
   color: #7C3AED;
 }
 
-/* ====== Content (expandable) ====== */
-
 .section-content {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-/* ====== Cards grid ====== */
 
 .cards-label {
   font-size: 10px;
@@ -218,7 +212,7 @@ body {
   color: #9CA3AF;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin: 18px 0 10px;
+  margin: 14px 0 8px;
 }
 
 .cards-grid {
@@ -226,8 +220,6 @@ body {
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
-
-/* ====== Topic card ====== */
 
 .card {
   background: #FFFFFF;
@@ -264,28 +256,21 @@ body {
   line-height: 1.45;
 }
 
-.card-name .emoji {
-  margin-right: 4px;
-  font-size: 13px;
-}
-
-/* ====== Responsive ====== */
-
 @media (max-width: 680px) {
-  .app { padding: 24px 16px 40px; }
-  .header-title { font-size: 21px; }
-  .section { padding-left: 52px; }
-  .section-num { width: 40px; height: 40px; font-size: 14px; }
-  .section::before { left: 19px; top: 44px; }
-  .section-title { font-size: 13px; }
+  .app { padding: 16px 16px 20px; }
+  .header-title { font-size: 18px; }
+  .section { padding-left: 44px; }
+  .section-num { width: 32px; height: 32px; font-size: 12px; }
+  .section::before { left: 15px; top: 36px; }
+  .section-title { font-size: 12px; }
   .cards-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 400px) {
   .cards-grid { grid-template-columns: 1fr; }
-  .section { padding-left: 44px; }
-  .section-num { width: 34px; height: 34px; font-size: 12px; }
-  .section::before { left: 16px; top: 38px; }
+  .section { padding-left: 38px; }
+  .section-num { width: 28px; height: 28px; font-size: 11px; }
+  .section::before { left: 13px; top: 32px; }
 }
 
 </style>
@@ -306,103 +291,81 @@ body {
 (function() {
   "use strict";
 
-  // Эмодзи через Unicode escape sequences для максимальной совместимости
   var E = {
-    // Модули
-    building: "\uD83C\uDFDB\uFE0F",      // 🏛️ Архитектурные стили
-    clipboard: "\uD83D\uDCCB",            // 📋 Требования
-    shield: "\uD83D\uDEE1\uFE0F",         // 🛡️ Устойчивые решения
-    plug: "\uD83D\uDD0C",                 // 🔌 Интеграция
-    database: "\uD83D\uDDC4\uFE0F",       // 🗄️ Хранение данных
-    cloud: "\u2601\uFE0F",                // ☁️ Системная архитектура
-    docs: "\uD83D\uDCDD",                 // 📝 Документирование
-    puzzle: "\uD83E\uDDE9",               // 🧩 Микросервисы
-    handshake: "\uD83E\uDD1D",            // 🤝 Soft Skills
-
-    // Темы - Модуль 1
-    book: "\uD83D\uDCD6",                 // 📖
-    checkmark: "\u2705",                  // ✅
-    person: "\uD83D\uDC64",               // 👤
-    bricks: "\uD83E\uDDF1",               // 🧱
-    cubes: "\uD83D\uDCE6",                // 📦
-    target: "\uD83C\uDFAF",               // 🎯
-    sparkles: "\u2728",                   // ✨
-    lightning: "\u26A1",                  // ⚡
-    chart: "\uD83D\uDCCA",                // 📊
-    runner: "\uD83C\uDFC3",               // 🏃
-
-    // Темы - Модуль 2
-    users: "\uD83D\uDC65",                // 👥
-    list: "\uD83D\uDCDD",                 // 📝
-    gear: "\u2699\uFE0F",                 // ⚙️
-    magnifier: "\uD83D\uDD0D",            // 🔍
-    lock: "\uD83D\uDD12",                 // 🔒
-    medal: "\uD83C\uDFC5",                // 🏅
-    star: "\u2B50",                       // ⭐
-    arrows: "\uD83D\uDD04",               // 🔄
-
-    // Темы - Модуль 3
-    diamond: "\uD83D\uDC8E",              // 💎
-    tools: "\uD83D\uDEE0\uFE0F",          // 🛠️
-
-    // Темы - Модуль 4
-    speech: "\uD83D\uDCAC",               // 💬
-    layers: "\uD83D\uDDC2\uFE0F",         // 🗂️
-    network: "\uD83D\uDD17",              // 🔗
-    sync: "\uD83D\uDD03",                 // 🔃
-    api: "\uD83D\uDCE1",                  // 📡
-    file: "\uD83D\uDCC4",                 // 📄
-    envelope: "\u2709\uFE0F",             // ✉️
-    async: "\uD83D\uDCE8",                // 📨
-    compare: "\u2696\uFE0F",              // ⚖️
-    transfer: "\uD83D\uDCE5",             // 📥
-    wrench: "\uD83D\uDD27",               // 🔧
-
-    // Темы - Модуль 5
-    table: "\uD83D\uDDC3\uFE0F",          // 🗃️
-    think: "\uD83E\uDD14",                // 🤔
-    concurrent: "\uD83D\uDD00",           // 🔀
-    rocket: "\uD83D\uDE80",               // 🚀
-    nosql: "\uD83D\uDCBE",                // 💾
-    blueprint: "\uD83D\uDCD0",            // 📐
-
-    // Темы - Модуль 6
-    server: "\uD83D\uDDA5\uFE0F",         // 🖥️
-    globe: "\uD83C\uDF10",                // 🌐
-    penguin: "\uD83D\uDC27",              // 🐧
-    cicd: "\u267B\uFE0F",                 // ♻️
-    eye: "\uD83D\uDC41\uFE0F",            // 👁️
-    cloudprov: "\u2601\uFE0F",            // ☁️
-    pattern: "\uD83D\uDDBC\uFE0F",        // 🖼️
-    twelve: "\uD83D\uDD22",               // 🔢
-    sla: "\uD83D\uDCCF",                  // 📏
-    helm: "\u2638\uFE0F",                 // ☸️
-
-    // Темы - Модуль 7
-    uml: "\uD83D\uDCC8",                  // 📈
-    bpmn: "\uD83D\uDDFA\uFE0F",           // 🗺️
-    views: "\uD83D\uDC41\uFE0F",          // 👁️
-    c4: "\uD83D\uDFE6",                   // 🟦
-    adr: "\uD83D\uDCDC",                  // 📜
-    archimate: "\uD83C\uDFD7\uFE0F",      // 🏗️
-
-    // Темы - Модуль 8
-    storm: "\u26C8\uFE0F",                // ⛈️
-    design: "\u270F\uFE0F",               // ✏️
-    infra: "\uD83C\uDFE2",                // 🏢
-    lifecycle: "\uD83D\uDD04",            // 🔄
-    test: "\uD83E\uDDEA",                 // 🧪
-    observe: "\uD83D\uDCF1",              // 📱
-    knife: "\uD83D\uDD2A"                 // 🔪
+    building: "\uD83C\uDFDB\uFE0F",
+    clipboard: "\uD83D\uDCCB",
+    shield: "\uD83D\uDEE1\uFE0F",
+    plug: "\uD83D\uDD0C",
+    database: "\uD83D\uDDC4\uFE0F",
+    cloud: "\u2601\uFE0F",
+    docs: "\uD83D\uDCDD",
+    puzzle: "\uD83E\uDDE9",
+    handshake: "\uD83E\uDD1D",
+    book: "\uD83D\uDCD6",
+    checkmark: "\u2705",
+    person: "\uD83D\uDC64",
+    bricks: "\uD83E\uDDF1",
+    cubes: "\uD83D\uDCE6",
+    target: "\uD83C\uDFAF",
+    sparkles: "\u2728",
+    lightning: "\u26A1",
+    chart: "\uD83D\uDCCA",
+    runner: "\uD83C\uDFC3",
+    users: "\uD83D\uDC65",
+    list: "\uD83D\uDCDD",
+    gear: "\u2699\uFE0F",
+    magnifier: "\uD83D\uDD0D",
+    lock: "\uD83D\uDD12",
+    medal: "\uD83C\uDFC5",
+    star: "\u2B50",
+    arrows: "\uD83D\uDD04",
+    diamond: "\uD83D\uDC8E",
+    tools: "\uD83D\uDEE0\uFE0F",
+    speech: "\uD83D\uDCAC",
+    layers: "\uD83D\uDDC2\uFE0F",
+    network: "\uD83D\uDD17",
+    sync: "\uD83D\uDD03",
+    api: "\uD83D\uDCE1",
+    file: "\uD83D\uDCC4",
+    envelope: "\u2709\uFE0F",
+    async: "\uD83D\uDCE8",
+    compare: "\u2696\uFE0F",
+    transfer: "\uD83D\uDCE5",
+    wrench: "\uD83D\uDD27",
+    table: "\uD83D\uDDC3\uFE0F",
+    think: "\uD83E\uDD14",
+    concurrent: "\uD83D\uDD00",
+    rocket: "\uD83D\uDE80",
+    nosql: "\uD83D\uDCBE",
+    blueprint: "\uD83D\uDCD0",
+    server: "\uD83D\uDDA5\uFE0F",
+    globe: "\uD83C\uDF10",
+    penguin: "\uD83D\uDC27",
+    cicd: "\u267B\uFE0F",
+    eye: "\uD83D\uDC41\uFE0F",
+    cloudprov: "\u2601\uFE0F",
+    pattern: "\uD83D\uDDBC\uFE0F",
+    twelve: "\uD83D\uDD22",
+    sla: "\uD83D\uDCCF",
+    helm: "\u2638\uFE0F",
+    uml: "\uD83D\uDCC8",
+    bpmn: "\uD83D\uDDFA\uFE0F",
+    views: "\uD83D\uDC41\uFE0F",
+    c4: "\uD83D\uDFE6",
+    adr: "\uD83D\uDCDC",
+    archimate: "\uD83C\uDFD7\uFE0F",
+    storm: "\u26C8\uFE0F",
+    design: "\u270F\uFE0F",
+    infra: "\uD83C\uDFE2",
+    lifecycle: "\uD83D\uDD04",
+    test: "\uD83E\uDDEA",
+    observe: "\uD83D\uDCF1",
+    knife: "\uD83D\uDD2A"
   };
 
   var modules = [
     {
-      id: 1,
-      code: "ARC-I-001",
-      emoji: E.building,
-      color: "#7C3AED",
-      colorLight: "#F3EEFF",
+      id: 1, code: "ARC-I-001", emoji: E.building, color: "#7C3AED", colorLight: "#F3EEFF",
       name: "Архитектурные стили ПО: формирование базовой архитектуры",
       desc: "Обзор программной архитектуры, знакомство с ключевыми понятиями, ходом мыслей программного архитектора и принципами архитектурного проектирования.",
       topics: [
@@ -419,11 +382,7 @@ body {
       ]
     },
     {
-      id: 2,
-      code: "ARC-I-002",
-      emoji: E.clipboard,
-      color: "#3B82F6",
-      colorLight: "#EFF6FF",
+      id: 2, code: "ARC-I-002", emoji: E.clipboard, color: "#3B82F6", colorLight: "#EFF6FF",
       name: "Работа с требованиями при проектировании архитектуры",
       desc: "Связь заинтересованных сторон, целей и требований архитектуры при разработке ПО. Функциональные и нефункциональные требования, движущие силы архитектуры.",
       topics: [
@@ -438,24 +397,16 @@ body {
       ]
     },
     {
-      id: 3,
-      code: "ARC-I-003",
-      emoji: E.shield,
-      color: "#8B5CF6",
-      colorLight: "#F5F3FF",
+      id: 3, code: "ARC-I-003", emoji: E.shield, color: "#8B5CF6", colorLight: "#F5F3FF",
       name: "Создание устойчивых решений: принципы проектирования",
-      desc: "Логика и последовательность шагов при проектировании архитектуры. Методика, направленная на достижение атрибутов качества: надежность, производительность, безопасность, модифицируемость.",
+      desc: "Логика и последовательность шагов при проектировании архитектуры. Методика, направленная на достижение атрибутов качества.",
       topics: [
         { emoji: E.diamond, text: "Проектирование от атрибутов качества" },
         { emoji: E.tools, text: "Тактики и паттерны проектирования" }
       ]
     },
     {
-      id: 4,
-      code: "ARC-I-004",
-      emoji: E.plug,
-      color: "#2563EB",
-      colorLight: "#EEF2FF",
+      id: 4, code: "ARC-I-004", emoji: E.plug, color: "#2563EB", colorLight: "#EEF2FF",
       name: "Технологии интеграции и взаимодействие микросервисов",
       desc: "Основные способы интеграции приложений: файлы, базы данных, удаленный вызов, брокер. Синхронное и асинхронное взаимодействие.",
       topics: [
@@ -473,11 +424,7 @@ body {
       ]
     },
     {
-      id: 5,
-      code: "ARC-I-005",
-      emoji: E.database,
-      color: "#0EA5E9",
-      colorLight: "#E0F7FF",
+      id: 5, code: "ARC-I-005", emoji: E.database, color: "#0EA5E9", colorLight: "#E0F7FF",
       name: "Технологии хранения и управления информацией",
       desc: "Задачи хранения информации и принципы проектирования баз данных. Модели данных, ER-диаграммы, типы связей.",
       topics: [
@@ -490,11 +437,7 @@ body {
       ]
     },
     {
-      id: 6,
-      code: "ARC-I-006",
-      emoji: E.cloud,
-      color: "#14B8A6",
-      colorLight: "#E6FFFA",
+      id: 6, code: "ARC-I-006", emoji: E.cloud, color: "#14B8A6", colorLight: "#E6FFFA",
       name: "Системная архитектура: дизайн и оптимизация инфраструктуры",
       desc: "Принципы развертывания приложений и их влияние на атрибуты качества. Постановка задач системным инженерам, администраторам и DevOps.",
       topics: [
@@ -511,11 +454,7 @@ body {
       ]
     },
     {
-      id: 7,
-      code: "ARC-I-007",
-      emoji: E.docs,
-      color: "#A855F7",
-      colorLight: "#FAF0FF",
+      id: 7, code: "ARC-I-007", emoji: E.docs, color: "#A855F7", colorLight: "#FAF0FF",
       name: "Документирование архитектурных решений: BPMN, UML, нотация 4+1 и ADR",
       desc: "Анализ диаграмм BPMN, разработка C4 и UML диаграмм. Нотация 4+1 для разных точек зрения на архитектуру.",
       topics: [
@@ -528,11 +467,7 @@ body {
       ]
     },
     {
-      id: 8,
-      code: "ARC-I-008",
-      emoji: E.puzzle,
-      color: "#6366F1",
-      colorLight: "#EEF0FF",
+      id: 8, code: "ARC-I-008", emoji: E.puzzle, color: "#6366F1", colorLight: "#EEF0FF",
       name: "Микросервисная архитектура: проектирование, внедрение, поддержка",
       desc: "Построение масштабируемых и надежных микросервисных систем. Ключевые принципы проектирования, интеграции и поддержки микросервисов.",
       topics: [
@@ -546,11 +481,7 @@ body {
       ]
     },
     {
-      id: 9,
-      code: "ARC-I-009",
-      emoji: E.handshake,
-      color: "#F59E0B",
-      colorLight: "#FFF8E1",
+      id: 9, code: "ARC-I-009", emoji: E.handshake, color: "#F59E0B", colorLight: "#FFF8E1",
       name: "Инструменты командного игрока: Soft Skills",
       desc: "Финальный практический блок. Подготовка презентаций, защита решений на архитектурном комитете или перед инвесторами. Включает дипломную работу.",
       topics: []
@@ -559,75 +490,61 @@ body {
 
   function buildTimeline() {
     var tl = document.getElementById("timeline");
-    if (!tl) { return; }
+    if (!tl) return;
 
-    var i, j, mod, section, num, header, info, title, desc;
-    var badges, codeBadge, countBadge, chev, poly;
-    var content, label, grid, card, iconBox, cardName;
-    var emojiSpan, topicData;
+    for (var i = 0; i < modules.length; i++) {
+      var mod = modules[i];
 
-    for (i = 0; i < modules.length; i++) {
-      mod = modules[i];
-
-      section = document.createElement("div");
+      var section = document.createElement("div");
       section.className = "section";
 
-      // Number circle
-      num = document.createElement("div");
+      var num = document.createElement("div");
       num.className = "section-num";
       num.style.background = "linear-gradient(135deg, " + mod.color + ", " + lighten(mod.color) + ")";
-      num.style.boxShadow = "0 4px 14px " + mod.color + "33";
-      if (mod.id < 10) {
-        num.textContent = "0" + mod.id;
-      } else {
-        num.textContent = "" + mod.id;
-      }
+      num.style.boxShadow = "0 3px 10px " + mod.color + "33";
+      num.textContent = mod.id < 10 ? "0" + mod.id : "" + mod.id;
       section.appendChild(num);
 
-      // Header
-      header = document.createElement("div");
+      var header = document.createElement("div");
       header.className = "section-header";
 
-      info = document.createElement("div");
+      var info = document.createElement("div");
       info.className = "section-info";
 
-      title = document.createElement("div");
+      var title = document.createElement("div");
       title.className = "section-title";
-      
-      // Добавляем эмодзи перед названием модуля
-      emojiSpan = document.createElement("span");
+      var emojiSpan = document.createElement("span");
       emojiSpan.className = "emoji";
       emojiSpan.textContent = mod.emoji;
       title.appendChild(emojiSpan);
       title.appendChild(document.createTextNode(mod.name));
       info.appendChild(title);
 
-      desc = document.createElement("div");
-      desc.className = "section-desc";
-      desc.textContent = mod.desc;
-      info.appendChild(desc);
-
-      // Badges
-      badges = document.createElement("div");
+      var badges = document.createElement("div");
       badges.className = "section-badges";
 
-      codeBadge = document.createElement("span");
+      var codeBadge = document.createElement("span");
       codeBadge.className = "badge badge-code";
       codeBadge.textContent = mod.code;
       badges.appendChild(codeBadge);
 
       if (mod.topics.length > 0) {
-        countBadge = document.createElement("span");
+        var countBadge = document.createElement("span");
         countBadge.className = "badge badge-count";
         countBadge.textContent = mod.topics.length + " " + topicWord(mod.topics.length);
         badges.appendChild(countBadge);
       }
 
       info.appendChild(badges);
+
+      var desc = document.createElement("div");
+      desc.className = "section-desc";
+      desc.textContent = mod.desc;
+      info.appendChild(desc);
+
       header.appendChild(info);
 
-      // Chevron SVG
-      chev = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      var chev = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       chev.setAttribute("class", "section-chevron");
       chev.setAttribute("viewBox", "0 0 24 24");
       chev.setAttribute("fill", "none");
@@ -635,49 +552,40 @@ body {
       chev.setAttribute("stroke-width", "2.5");
       chev.setAttribute("stroke-linecap", "round");
       chev.setAttribute("stroke-linejoin", "round");
-
-      poly = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+      var poly = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
       poly.setAttribute("points", "6 9 12 15 18 9");
       chev.appendChild(poly);
       header.appendChild(chev);
 
       section.appendChild(header);
 
-      // Content with cards
       if (mod.topics.length > 0) {
-        content = document.createElement("div");
+        var content = document.createElement("div");
         content.className = "section-content";
 
-        label = document.createElement("div");
+        var label = document.createElement("div");
         label.className = "cards-label";
         label.textContent = "Содержание модуля";
         content.appendChild(label);
 
-        grid = document.createElement("div");
+        var grid = document.createElement("div");
         grid.className = "cards-grid";
 
-        for (j = 0; j < mod.topics.length; j++) {
-          topicData = mod.topics[j];
-          
-          card = document.createElement("div");
+        for (var j = 0; j < mod.topics.length; j++) {
+          var topicData = mod.topics[j];
+
+          var card = document.createElement("div");
           card.className = "card";
 
-          iconBox = document.createElement("div");
+          var iconBox = document.createElement("div");
           iconBox.className = "card-icon emoji";
           iconBox.style.background = mod.colorLight;
           iconBox.textContent = topicData.emoji;
           card.appendChild(iconBox);
 
-          cardName = document.createElement("div");
+          var cardName = document.createElement("div");
           cardName.className = "card-name";
-          
-          // Добавляем эмодзи перед названием темы
-          emojiSpan = document.createElement("span");
-          emojiSpan.className = "emoji";
-          emojiSpan.textContent = topicData.emoji;
-          cardName.appendChild(emojiSpan);
-          cardName.appendChild(document.createTextNode(topicData.text));
-          
+          cardName.textContent = topicData.text;
           card.appendChild(cardName);
 
           grid.appendChild(card);
@@ -697,16 +605,13 @@ body {
       var wasOpen = sec.classList.contains("open");
       var cont = sec.querySelector(".section-content");
       var allSections = document.querySelectorAll(".section");
-      var k, c;
 
-      // Close all
-      for (k = 0; k < allSections.length; k++) {
+      for (var k = 0; k < allSections.length; k++) {
         allSections[k].classList.remove("open");
-        c = allSections[k].querySelector(".section-content");
-        if (c) { c.style.maxHeight = "0px"; }
+        var c = allSections[k].querySelector(".section-content");
+        if (c) c.style.maxHeight = "0px";
       }
 
-      // Open if was closed
       if (!wasOpen && cont) {
         sec.classList.add("open");
         cont.style.maxHeight = cont.scrollHeight + "px";
@@ -718,8 +623,8 @@ body {
   }
 
   function topicWord(n) {
-    if (n === 1) { return "тема"; }
-    if (n >= 2 && n <= 4) { return "темы"; }
+    if (n === 1) return "тема";
+    if (n >= 2 && n <= 4) return "темы";
     return "тем";
   }
 
@@ -733,7 +638,6 @@ body {
     return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
   }
 
-  // Запускаем построение после загрузки DOM
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", buildTimeline);
   } else {
